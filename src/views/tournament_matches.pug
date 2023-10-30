@@ -43,8 +43,8 @@ block content
                             li.list-group-item Winner: #{match.player2.name}
                         else if match.winner === 'TIE'
                             li.list-group-item Winner: TIE
-                        li.list-group-item Edit Winner:
-                            if isCreator
+                        if isCreator
+                            li.list-group-item Edit Winner:
                                 form(action=`/tournaments/${code}/stats`, method='POST')
                                     input.mx-1(id=match.round + match.order + match.player1.id, type='radio', name='winner', value='1')
                                     label(for=match.round + match.order + match.player1.id) #{match.player1.name}
