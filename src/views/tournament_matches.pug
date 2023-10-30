@@ -1,13 +1,15 @@
 extends homepage
 
 block content
-    h2.text-center.mt-3 #{tournament_name}
+    h2.text-center.mt-3 #{tournament.name}
     if isCreator
         div.container-md.mt-2
             p.text-center SHARE: #{share_link}
 
     h2.text-center.mt-4 Players' Stats
     div.container-md.mt-3
+        p.text-center WIN / TIE / DEFEAT  :  #{tournament.win} / #{tournament.tie} / #{tournament.defeat}
+    div.container-md.mt-2
         table.table
             thead
                 tr

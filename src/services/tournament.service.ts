@@ -1,6 +1,21 @@
 import {Tournament, TournamentDTO} from "../models/tournament.model";
 import pool from "../db/pool";
 
+export async function getTournamentById(id: number): Promise<Tournament> {
+    const statement = 'select * from tournament where id = $1'
+    const result = (await pool.query(statement, [id])).rows[0];
+
+    return {
+        id: result['id'],
+        name: result['name'],
+        creator: result['creator'],
+        win: result['win_value'],
+        tie: result['tie_value'],
+        defeat: result['defeat_penalty'],
+        created: result['created']
+    } as Tournament;
+}
+
 export async function getAllUnfinishedTournamentsByCreator(creator: string): Promise<Tournament[]> {
     const statement = `select distinct t.*
                        from tournament t

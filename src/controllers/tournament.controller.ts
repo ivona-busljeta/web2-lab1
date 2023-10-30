@@ -1,4 +1,9 @@
-import {getAllFinishedTournamentsByCreator, getAllUnfinishedTournamentsByCreator, saveTournamentByCreator} from "../services/tournament.service";
+import {
+    getAllFinishedTournamentsByCreator,
+    getAllUnfinishedTournamentsByCreator,
+    getTournamentById,
+    saveTournamentByCreator
+} from "../services/tournament.service";
 import {TournamentDTO} from "../models/tournament.model";
 import {getAllPlayersByTournamentWithStats, saveAllPlayersByTournament} from "../services/player.service";
 import {generateSchedule} from "../helpers/schedule-generator";
@@ -53,13 +58,12 @@ export async function getTournamentMatches(req, res) {
     const isCreator = user == creator;
     const share_link = `${req.protocol}://${req.get('host')}/share/${code}`;
 
+    const tournament = await getTournamentById(tournament_id);
     const stats = (await getAllPlayersByTournamentWithStats(tournament_id))
         .sort((a, b) => b.score - a.score);
-
     const matches = await getAllMatchesByTournament(tournament_id);
-    const tournament_name = matches[0].tournament_name;
 
-    res.render('tournament_matches', {user, code, tournament_name, share_link, stats, matches, isCreator})
+    res.render('tournament_matches', {user, code, tournament, share_link, stats, matches, isCreator})
 }
 
 export async function updateTournamentStats(req, res) {
