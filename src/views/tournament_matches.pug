@@ -1,0 +1,55 @@
+extends homepage
+
+block content
+    h2.text-center.mt-3 #{tournament_name}
+    if isCreator
+        div.container-md.mt-2
+            p.text-center SHARE: #{share_link}
+
+    h2.text-center.mt-4 Players' Stats
+    div.container-md.mt-3
+        table.table
+            thead
+                tr
+                    th.text-start(scope='col') Player
+                    th.text-end(scope='col') Wins
+                    th.text-end(scope='col') Ties
+                    th.text-end(scope='col') Defeats
+                    th.text-end(scope='col') Score
+            tbody
+                each player in stats
+                    tr
+                        th.text-start(scope='row')=player.name
+                        td.text-end=player.wins
+                        td.text-end=player.ties
+                        td.text-end=player.defeats
+                        td.text-end=player.score
+
+    h2.text-center.mt-4 Matches
+    div.container.mt-3
+        div.row.align-items-start
+            each match in matches
+                div.col-3
+                    div.card
+                        div.card-header Round: #{match.round}, No. #{match.order}
+                    ul.list-group.list-group-flush
+                        li.list-group-item Player #1: #{match.player1.name}
+                        li.list-group-item Player #2: #{match.player2.name}
+                        if match.winner === '1'
+                            li.list-group-item Winner: #{match.player1.name}
+                        else if match.winner === '2'
+                            li.list-group-item Winner: #{match.player2.name}
+                        else if match.winner === 'TIE'
+                            li.list-group-item Winner: TIE
+                        li.list-group-item Edit Winner:
+                            if isCreator
+                                form(action=`/tournaments/${code}/stats`, method='POST')
+                                    input.mx-1(id=match.round + match.order + match.player1.id, type='radio', name='winner', value='1')
+                                    label(for=match.round + match.order + match.player1.id) #{match.player1.name}
+                                    input.mx-1(id=match.round + match.order + match.player2.id, type='radio', name='winner', value='2')
+                                    label(for=match.round + match.order + match.player2.id) #{match.player2.name}
+                                    input.mx-1(id=`${match.round + match.order}TIE`, type='radio', name='winner', value='TIE')
+                                    label(for=`${match.round + match.order}TIE`) TIE
+                                    input(type='hidden', name='round', value=match.round)
+                                    input(type='hidden', name='order', value=match.order)
+                                    input.mx-1(type='submit', value='Submit')

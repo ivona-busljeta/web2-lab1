@@ -1,0 +1,33 @@
+extends homepage
+
+block content
+    h2.text-center.mt-3 Your Tournaments
+    div.container-md.mt-3
+        div.card
+            h5.card-header New Tournament
+            div.card-body
+                form(action='/tournaments', method='POST')
+                    div.row
+                        div.col
+                            input.form-control(placeholder='Name', type='text', name='name', value='', required=true, maxlength=50)
+                        div.col
+                            input.form-control(placeholder='Scoring System: win/tie/defeat', type='text', name='scoring_system', value='', pattern='([\\+\\-]?\\d\\/){2}[\\+\\-]?\\d', required=true)
+                        div.col
+                            input.form-control(placeholder='Players: player1;player2;player3;... (4-8 players)', type='text', name='players', value='', pattern='^\\w+(;\\w+){3,7}$', required=true)
+                    button.btn.btn-sm.btn-primary.mt-2(type='submit', value='Submit') Submit
+
+    if unfinishedTournaments.length > 0
+        div.container-md.mt-3
+            div.card
+                div.card-header Unfinished Tournaments
+                ul.list-group.list-group-flush
+                each ufTournament in unfinishedTournaments
+                    li.list-group-item: a(href=`/tournaments/${ufTournament.id}`) #{ufTournament.name}
+
+    if finishedTournaments.length > 0
+        div.container-md.mt-3
+            div.card
+                div.card-header Finished Tournaments
+                ul.list-group.list-group-flush
+                each fTournament in finishedTournaments
+                    li.list-group-item: a(href=`/tournaments/${fTournament.id}`) #{fTournament.name}

@@ -14,7 +14,7 @@ KREIRANJE NATJECANJA
 
 PRIJAVA KORISNIKA
 - odvija se korištenjem protokola OIDC i servisa Auth0
-- pripremiti testni korisnički račun
+- pripremiti testni korisnički račun ili omogućiti prijavu putem Google računa
 
 POHRANA PODATAKA
 - PostgreSQL na Renderu
