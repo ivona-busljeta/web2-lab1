@@ -51,7 +51,7 @@ export async function getTournamentMatches(req, res) {
 
     const {creator, tournament_id} = cache.get(code);
     const isCreator = user == creator;
-    const share_link = `https://localhost:3000/share/${code}`;
+    const share_link = `${req.protocol}://${req.get('host')}/share/${code}`;
 
     const stats = (await getAllPlayersByTournamentWithStats(tournament_id))
         .sort((a, b) => b.score - a.score);
